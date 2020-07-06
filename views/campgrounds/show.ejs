@@ -1,0 +1,36 @@
+<%- include('../partials/header') %>
+<div class="container">
+  <div class="row mt-4">
+    <div class="col-md-3">
+      <p class="lead">YelpCamp Sidebar</p>
+      <div class="list-group">
+        <li class="list-group-item">info 1</li>
+        <li class="list-group-item">info 2</li>
+        <li class="list-group-item">info 3</li>
+
+        <div class="mb-4">Google map section</div>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="card">
+        <div class="card-body">
+          <img style="width: 60%;" src="<%= details.image %>" alt="" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h1>welcome to <%= details.name %></h1>
+
+<p>About: <%= details.description %></p>
+
+<a class="btn btn-success" href="/campgrounds/<%= details._id %>/comments/new"
+  >Post a Comment</a
+>
+
+<% details.comments.forEach(comment =>{ %>
+<div>
+  <b>author: <%= comment.author %> - <%= comment.text %></b>
+</div>
+<% }) %> <%- include('../partials/footer') %>
