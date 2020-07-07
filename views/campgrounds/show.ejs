@@ -4,7 +4,7 @@
     <div class="col-md-3">
       <p class="lead">YelpCamp Sidebar</p>
       <div class="list-group">
-        <li class="list-group-item">info 1</li>
+        <li class="list-group-item active">info 1</li>
         <li class="list-group-item">info 2</li>
         <li class="list-group-item">info 3</li>
 
@@ -14,23 +14,39 @@
     <div class="col-md-9">
       <div class="card">
         <div class="card-body">
-          <img style="width: 60%;" src="<%= details.image %>" alt="" />
+          <img src="<%= details.image %>" alt="" />
+          <div class="card-padding mt-2 p-3">
+            <span class="float-right">jan 23 2004</span>
+            <h4 class="card-title"><%= details.name %></h4>
+            <p class="card-text"><%= details.description %></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-2">
+        <div class="card-footer">
+          <div class="text-right">
+            <a
+              class="btn btn-success"
+              href="/campgrounds/<%= details._id %>/comments/new"
+              >Post a Comment</a
+            >
+          </div>
+
+          <% details.comments.forEach(comment =>{ %>
+          <div class="row">
+            <div class="col-md-12">
+              <hr />
+              <strong><%= comment.author %></strong>
+              <span class="float-right text-muted">2 days ago</span>
+              <p><%= comment.text %></p>
+            </div>
+          </div>
+          <% }) %>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<h1>welcome to <%= details.name %></h1>
-
-<p>About: <%= details.description %></p>
-
-<a class="btn btn-success" href="/campgrounds/<%= details._id %>/comments/new"
-  >Post a Comment</a
->
-
-<% details.comments.forEach(comment =>{ %>
-<div>
-  <b>author: <%= comment.author %> - <%= comment.text %></b>
-</div>
-<% }) %> <%- include('../partials/footer') %>
+<%- include('../partials/footer') %>
