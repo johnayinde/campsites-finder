@@ -37,6 +37,11 @@ passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// Global Variable for all templates
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    next();
+})
 
 // route for home page
 app.get('/', (req, res) => {
@@ -45,6 +50,8 @@ app.get('/', (req, res) => {
 
 // route for list of campgrounds
 app.get('/campgrounds', (req, res) => {
+    console.log('current User', req.user);
+
     Campground.find({}, (error, result) => {
         if (error) console.log(error);
         else res.render('campgrounds/campground', { campgrounds: result });
@@ -81,7 +88,7 @@ app.get('/campgrounds/:id', (req, res) => {
  * COMMENT ROUTES
  * ===========
  */
-app.get('/campgrounds/:id/comments/new', (req, res) => {
+app.get('/campgrounds/:id/comments/new', isLoggedIn, (req, res) => {
     Campground.findById(req.params.id, (err, result) => {
         if (err) throw err;
         console.log(result);
@@ -90,7 +97,7 @@ app.get('/campgrounds/:id/comments/new', (req, res) => {
     })
 });
 
-app.post('/campgrounds/:id/comments', (req, res) => {
+app.post('/campgrounds/:id/comments', isLoggedIn, (req, res) => {
     const id = req.params.id;
     Comment.create(req.body, (err, comment) => {
         if (err) throw err;
@@ -150,7 +157,19 @@ app.post('/login', passport.authenticate('local', {
     console.log('login details', req.body);
 });
 
+app.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/campgrounds');
 
+})
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next()
+    }
+    res.redirect('/login');
+
+}
 
 app.listen(3000, function () {
     console.log('serving port 3000')
