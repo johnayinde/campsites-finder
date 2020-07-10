@@ -4,7 +4,10 @@ const express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
+    localStrategy = require('passport-local'),
+    passport = require('passport'),
     url = 'mongodb://localhost/yelp_camp',
+    User = require('./models/user'),
     Comment = require('./models/comment'),
     Campground = require('./models/campground'),
     sedDb = require('./seed');
@@ -18,6 +21,21 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+
+/**
+ * ============
+ *  PASSPORT CONFIGS
+ * ===========
+ */
+app.use(require('express-session')({
+    secret: "my secret", resave: false, saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 
 // route for home page
@@ -92,6 +110,47 @@ app.post('/campgrounds/:id/comments', (req, res) => {
     })
 
 });
+
+/**
+ * ============
+ * AUTH ROUTES
+ * ===========
+ */
+
+app.get('/register', (req, res) => {
+    res.render('register');
+});
+
+app.post('/register', (req, res) => {
+    console.log(req.body);
+    const newUsername = new User({ username: req.body.username });
+    const newPassword = req.body.password;
+    User.register(newUsername, newPassword, (err, user) => {
+        if (err) {
+            console.log(err);
+            res.render('register')
+            console.log('reserve register page');
+        }
+        passport.authenticate('local')(req, res, function () {
+            console.log('signup success');
+
+            res.redirect('/campgrounds');
+
+        })
+
+    })
+});
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+app.post('/login', passport.authenticate('local', {
+    successRedirect: '/campgrounds',
+    failureRedirect: '/login'
+}), (req, res) => {
+    console.log('login details', req.body);
+});
+
+
 
 app.listen(3000, function () {
     console.log('serving port 3000')
