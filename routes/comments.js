@@ -1,4 +1,4 @@
-const router = require('express').Router(),
+const router = require('express').Router({ mergeParams: true }),
    Comment = require('../models/comment'),
    Campground = require('../models/campground'),
    isLoggedIn = require('../utils/auth');
@@ -7,8 +7,6 @@ const router = require('express').Router(),
 router.get('/new', isLoggedIn, (req, res) => {
    Campground.findById(req.params.id, (err, result) => {
       if (err) throw err;
-      console.log(result);
-
       res.render('comments/new', { result });
    })
 });
@@ -21,13 +19,18 @@ router.post('/', isLoggedIn, (req, res) => {
       console.log("new comment created", comment);
 
       Campground.findById(req.params.id, (err, campground) => {
-         if (err) throw err;
+         if (err) {
+            console.log(err)
+         };
          console.log('found campground ', campground);
-
+         // add username and id to comment
+         comment.author.id = req.user._id;
+         comment.author.username = req.user.username;
+         // save comment
+         comment.save()
          campground.comments.push(comment._id);
-         console.log('added new comment to post');
-
          campground.save();
+         console.log('added new comment to post', comment);
          res.redirect(`/campgrounds/${id}`)
 
       })

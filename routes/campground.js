@@ -1,5 +1,7 @@
 const router = require('express').Router(),
-   Campground = require('../models/campground');
+   Campground = require('../models/campground'),
+   isLoggedIn = require('../utils/auth');
+
 
 // Get All Campgrounds
 router.get('/', (req, res) => {
@@ -12,12 +14,18 @@ router.get('/', (req, res) => {
 });
 
 // Create New Campgrounds
-router.post('/', (req, res) => {
+router.post('/', isLoggedIn, (req, res) => {
    const { name, image, description } = req.body;
    Campground.create({ name, image, description }, (error, result) => {
       if (error) console.log(error);
       else {
-         console.log("created: ", result);
+         console.log('create camp', result);
+         // Add author id and username
+         result.author.id = req.user._id;
+         result.author.username = req.user.username;
+         // Save author id and username
+         result.save();
+         console.log("save author ", result);
          res.redirect('/campgrounds');
       }
    });
@@ -25,7 +33,7 @@ router.post('/', (req, res) => {
 });
 
 // Render camp form
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
    res.render('campgrounds/new');
 });
 

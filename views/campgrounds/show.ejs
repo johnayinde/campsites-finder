@@ -16,6 +16,7 @@
         <div class="card-body">
           <img src="<%= details.image %>" alt="" />
           <div class="card-padding mt-2 p-3">
+            <p><em>Submitted by: <%= details.author.username %></em></p>
             <span class="float-right">jan 23 2004</span>
             <h4 class="card-title"><%= details.name %></h4>
             <p class="card-text"><%= details.description %></p>
@@ -37,7 +38,7 @@
           <div class="row">
             <div class="col-md-12">
               <hr />
-              <strong><%= comment.author %></strong>
+              <strong><%= comment.author.username %></strong>
               <span class="float-right text-muted">2 days ago</span>
               <p><%= comment.text %></p>
             </div>

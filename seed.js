@@ -15,23 +15,23 @@ function seedDb() {
       if (err) throw err;
       console.log('campground removed');
 
-      data.forEach(seed => {
-         Campground.create(seed, (err, ground) => {
-            if (err) throw err;
-            else {
-               console.log('campground created');
-               Comment.create({ text: 'i love the camp  Alias asperiores quod voluptatem earum eius officia tenetur excepturi quidem possimus cumque. Lorem ipsum dolor sit amet cons', author: 'James' }, (err, data) => {
-                  if (err) throw err;
-                  else {
-                     ground.comments.push(data._id);
-                     ground.save()
-                     console.log('comment created');
-                  }
-               })
-            }
+      // data.forEach(seed => {
+      //    Campground.create(seed, (err, ground) => {
+      //       if (err) throw err;
+      //       else {
+      //          console.log('campground created');
+      //          Comment.create({ text: 'i love the camp  Alias asperiores quod voluptatem earum eius officia tenetur excepturi quidem possimus cumque. Lorem ipsum dolor sit amet cons', author: 'James' }, (err, data) => {
+      //             if (err) throw err;
+      //             else {
+      //                ground.comments.push(data._id);
+      //                ground.save()
+      //                console.log('comment created');
+      //             }
+      //          })
+      //       }
 
-         })
-      })
+      //    })
+      // })
    })
 }
 
