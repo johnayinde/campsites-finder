@@ -48,16 +48,42 @@ router.get('/:id', (req, res) => {
 });
 
 // Show Edit page
-router.get('/:id/edit', (req, res) => {
+router.get('/:id/edit', campgroundOwnership, (req, res) => {
    Campground.findById(req.params.id, (err, campground) => {
-      console.log('found campground', campground);
-      if (err) throw err;
       res.render('campgrounds/edit', { campground });
    })
 });
 
+// start
+// check if user is logged in
+// if the user own the post
+// otherwise redirect
+// if not redirect
+function campgroundOwnership(req, res, next) {
+   if (req.isAuthenticated()) {
+      Campground.findById(req.params.id, (err, campground) => {
+         console.log('found campground', campground);
+         if (err) {
+            res.redirect('back')
+         } else {
+            if (campground.author.id.equals(req.user._id)) {
+               next()
+            } else {
+               console.log('you cannot edit this post')
+               res.redirect('back')
+            }
+         }
+      })
+   } else {
+      res.redirect('back')
+
+   }
+}
+
+// ends
+
 // Edit Campground
-router.put('/:id', (req, res) => {
+router.put('/:id', campgroundOwnership, (req, res) => {
    const id = req.params.id;
    const UpdatedData = {
       name: req.body.name,
@@ -77,7 +103,7 @@ router.put('/:id', (req, res) => {
 });
 
 // Delete Campground
-router.delete('/:id', (req, res) => {
+router.delete('/:id', campgroundOwnership, (req, res) => {
    const id = req.params.id;
 
    Campground.findOneAndRemove(id, (err, result) => {
