@@ -3,6 +3,7 @@ const express = require('express'),
     localStrategy = require('passport-local'),
     mongoose = require('mongoose'),
     passport = require('passport'),
+    methodOverride = require('method-override'),
     app = express();
 
 const campground = require('./models/campground'),
@@ -16,11 +17,12 @@ const campground = require('./models/campground'),
 mongoose.connect(url, { useUnifiedTopology: true, useNewUrlParser: true })
 
 
-sedDb();
+// sedDb();
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(methodOverride('_method'))
 
 /**
  * ============

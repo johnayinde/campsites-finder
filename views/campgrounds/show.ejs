@@ -20,6 +20,18 @@
             <span class="float-right">jan 23 2004</span>
             <h4 class="card-title"><%= details.name %></h4>
             <p class="card-text"><%= details.description %></p>
+            <a
+              href="/campgrounds/<%= details._id %>/edit"
+              class="btn btn-warning"
+              >Edit</a
+            >
+            <form
+              id="delete-form"
+              action="/campgrounds/<%= details._id %>?_method=DELETE"
+              method="post"
+            >
+              <button class="btn btn-danger">Delete</button>
+            </form>
           </div>
         </div>
       </div>
