@@ -19,6 +19,7 @@ div.card-footer {
 .caption {
   padding-bottom: 5px;
 }
-#delete-form {
+#delete-form,
+.delete-form {
   display: inline-block;
 }

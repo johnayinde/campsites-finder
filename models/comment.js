@@ -2,7 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 
 const commentSchema = new mongoose.Schema({
-   text: String,
+   text: {
+      type: String,
+   },
    author: {
       id: {
          type: Schema.Types.ObjectId,
