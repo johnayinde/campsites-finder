@@ -1,18 +1,25 @@
 const router = require('express').Router(),
    Campground = require('../models/campground'),
-   isLoggedIn = require('../utils/auth'),
-   campgroundOwnership = require('../utils/campgroundAuth');
+   middleware = require('../utils/index');
+
 
 // Get All Campgrounds
 router.get('/', (req, res) => {
    Campground.find({}, (error, result) => {
       if (error) console.log(error);
       else res.render('campgrounds/campground', { campgrounds: result });
+      console.log(req.user);
+
    })
 });
 
+// Render camp form
+router.get('/new', middleware.isLoggedIn, (req, res) => {
+   res.render('campgrounds/new');
+});
+
 // Create New Campgrounds
-router.post('/', isLoggedIn, (req, res) => {
+router.post('/', middleware.isLoggedIn, (req, res) => {
    const { name, image, description } = req.body;
    Campground.create({ name, image, description }, (error, result) => {
       if (error) console.log(error);
@@ -29,10 +36,6 @@ router.post('/', isLoggedIn, (req, res) => {
 
 });
 
-// Render camp form
-router.get('/new', isLoggedIn, (req, res) => {
-   res.render('campgrounds/new');
-});
 
 // GEt Single Campgrounds
 router.get('/:id', (req, res) => {
@@ -45,7 +48,7 @@ router.get('/:id', (req, res) => {
 });
 
 // Show Edit page
-router.get('/:id/edit', campgroundOwnership, (req, res) => {
+router.get('/:id/edit', middleware.campgroundOwnership, (req, res) => {
    Campground.findById(req.params.id, (err, campground) => {
       res.render('campgrounds/edit', { campground });
    })
@@ -53,7 +56,7 @@ router.get('/:id/edit', campgroundOwnership, (req, res) => {
 
 
 // Edit Campground
-router.put('/:id', campgroundOwnership, (req, res) => {
+router.put('/:id', middleware.campgroundOwnership, (req, res) => {
    const id = req.params.id;
    const UpdatedData = {
       name: req.body.name,
@@ -73,7 +76,7 @@ router.put('/:id', campgroundOwnership, (req, res) => {
 });
 
 // Delete Campground
-router.delete('/:id', campgroundOwnership, (req, res) => {
+router.delete('/:id', middleware.campgroundOwnership, (req, res) => {
    const id = req.params.id;
 
    Campground.findOneAndRemove(id, (err, result) => {
@@ -87,4 +90,5 @@ router.delete('/:id', campgroundOwnership, (req, res) => {
 
    })
 });
-module.exports = router
+
+module.exports = router;
