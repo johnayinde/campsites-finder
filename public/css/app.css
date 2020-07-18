@@ -1,6 +1,9 @@
 body {
   background: rgb(214, 209, 209);
 }
+nav {
+  margin-bottom: 0.5em;
+}
 .btn {
   padding: 3px 6px;
 }

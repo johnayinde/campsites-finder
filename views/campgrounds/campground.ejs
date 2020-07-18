@@ -1,7 +1,4 @@
 <%- include('../partials/header') %>
-<h4>
-  <%= currentUser %>
-</h4>
 
 <div class="container">
   <header class="jumbotron">
@@ -19,9 +16,7 @@
         <img src="<%= ground.image %>" class="img-thumbnail" />
         <div class="caption">
           <p class="card-text text-center"><%= ground.name %></p>
-          <a href="/campgrounds/<%= ground._id %> " class="btn btn-primary"
-            >More info</a
-          >
+          <a href="/campgrounds/<%= ground._id %> " class="btn btn-primary">More info</a>
         </div>
       </div>
     </div>

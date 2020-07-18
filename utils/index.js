@@ -17,13 +17,13 @@ middleware.commentOwnership = (req, res, next) => {
             if (foundComment.author.id.equals(req.user._id)) {
                return next()
             } else {
-               console.log('you cannot edit this post')
+               req.flash('error', "You don't have premission to do that")
                res.redirect('back')
             }
          }
       })
    } else {
-      console.log('you need to login');
+      req.flash('error', "You need to login to do that")
       res.redirect('back')
 
    }
@@ -38,32 +38,31 @@ middleware.commentOwnership = (req, res, next) => {
 middleware.campgroundOwnership = (req, res, next) => {
    if (req.isAuthenticated()) {
       Campground.findById(req.params.id, (err, campground) => {
-         console.log('found campground', campground);
          if (err) {
+            req.flash('error', "Error occure")
             res.redirect('back')
          } else {
             if (campground.author.id.equals(req.user._id)) {
                next()
             } else {
-               console.log('you cannot edit this post')
+               req.flash('error', "You don't have premission to do that")
                res.redirect('back')
             }
          }
       })
    } else {
+      req.flash('error', "You need to login to do that")
       res.redirect('back')
-
    }
 }
 
-// ends
 //   Middleware (Login)
 middleware.isLoggedIn = (req, res, next) => {
    if (req.isAuthenticated()) {
       return next()
    }
+   req.flash('error', "You need to login to do that")
    res.redirect('/login');
-
 }
 
 module.exports = middleware;

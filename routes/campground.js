@@ -29,7 +29,6 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
          result.author.username = req.user.username;
          // Save author id and username
          result.save();
-         console.log("save author ", result);
          res.redirect('/campgrounds');
       }
    });
@@ -68,7 +67,6 @@ router.put('/:id', middleware.campgroundOwnership, (req, res) => {
          console.log(err);
          res.redirect(`/campgrounds/${id}/edit`);
       }
-      console.log('message updated ', campground);
       res.redirect(`/campgrounds/${id}`);
 
 
@@ -84,10 +82,8 @@ router.delete('/:id', middleware.campgroundOwnership, (req, res) => {
       if (err) {
          console.log(err);
          res.redirect(`/campgrounds/${id}`);
-
       }
       res.redirect('/campgrounds');
-
    })
 });
 

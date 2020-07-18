@@ -4,10 +4,10 @@ const express = require('express'),
     mongoose = require('mongoose'),
     passport = require('passport'),
     methodOverride = require('method-override'),
+    flash = require('connect-flash'),
     app = express();
 
-const campground = require('./models/campground'),
-    campgroundRoute = require('./routes/campground'),
+const campgroundRoute = require('./routes/campground'),
     commentRoute = require('./routes/comments'),
     authRoute = require('./routes/auth'),
     url = 'mongodb://localhost/yelp_camp',
@@ -23,6 +23,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(methodOverride('_method'))
+app.use(flash());
 
 /**
  * ============
@@ -42,6 +43,8 @@ passport.deserializeUser(User.deserializeUser());
 // Global Variable for all templates
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
     next();
 })
 
