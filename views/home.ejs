@@ -1,10 +1,43 @@
-<%- include('partials/header') %>
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="container">
-  <header class="jumbotron">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
+  <script src="/js/jquery.min.js"></script>
+  <link rel="stylesheet" href="/css/slideshow.css" />
+</head>
+
+<body>
+
+  <div class="container">
+    <% if (error && error.length > 0) { %>
+    <div class="alert alert-danger" role="alert">
+      <%= error %>
+    </div>
+    <% } %>
+
+    <% if (success && success.length > 0) { %>
+    <div class="alert alert-success" role="alert">
+      <%= success %>
+    </div>
+    <% } %>
+
+  </div>
+
+  <div class="container camp-header">
     <h1>welcome to yelp campground</h1>
     <a class="btn btn-primary" href="/campgrounds">View all camp grounds</a>
-  </header>
-</div>
+  </div>
 
-<%- include('partials/footer') %>
+  <ul class="slideshow">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+
+  <%- include('partials/footer') %>
