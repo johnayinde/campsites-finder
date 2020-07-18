@@ -20,8 +20,8 @@ router.get('/new', middleware.isLoggedIn, (req, res) => {
 
 // Create New Campgrounds
 router.post('/', middleware.isLoggedIn, (req, res) => {
-   const { name, image, description } = req.body;
-   Campground.create({ name, image, description }, (error, result) => {
+   const { name, image, description, price } = req.body;
+   Campground.create({ name, image, description, price }, (error, result) => {
       if (error) console.log(error);
       else {
          // Add author id and username
@@ -60,6 +60,7 @@ router.put('/:id', middleware.campgroundOwnership, (req, res) => {
    const UpdatedData = {
       name: req.body.name,
       image: req.body.image,
+      price: req.body.price,
       description: req.body.description,
    }
    Campground.findByIdAndUpdate(id, UpdatedData, { useFindAndModify: false }, (err, campground) => {
