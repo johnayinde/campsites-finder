@@ -10,6 +10,7 @@ const express = require('express'),
 const campgroundRoute = require('./routes/campground'),
     commentRoute = require('./routes/comments'),
     authRoute = require('./routes/auth'),
+    usersRoute = require('./routes/users'),
     url = 'mongodb://localhost/yelp_camp',
     User = require('./models/user'),
     sedDb = require('./seed');
@@ -50,6 +51,7 @@ app.use((req, res, next) => {
 
 // Route Middlewares
 app.use('/campgrounds', campgroundRoute);
+app.use('/users', usersRoute);
 app.use('/', authRoute);
 app.use('/campgrounds/:id/comments', commentRoute);
 

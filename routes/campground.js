@@ -1,5 +1,6 @@
 const router = require('express').Router(),
    Campground = require('../models/campground'),
+   User = require('../models/user'),
    middleware = require('../utils/index');
 
 
@@ -8,7 +9,6 @@ router.get('/', (req, res) => {
    Campground.find({}, (error, result) => {
       if (error) console.log(error);
       else res.render('campgrounds/campground', { campgrounds: result });
-      console.log(req.user);
 
    })
 });
@@ -24,12 +24,18 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
    Campground.create({ name, image, description, price }, (error, result) => {
       if (error) console.log(error);
       else {
+
          // Add author id and username
          result.author.id = req.user._id;
          result.author.username = req.user.username;
          // Save author id and username
-         result.save();
-         res.redirect('/campgrounds');
+         result.save()
+         // save individual post to user DB
+         User.findByIdAndUpdate(result.author.id, { $push: { posts: result._id } }, { useFindAndModify: false }, (err, updated) => {
+            if (err) throw err;
+            res.redirect('/campgrounds');
+            console.log('updated User:' + updated);
+         })
       }
    });
 

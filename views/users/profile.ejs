@@ -1,0 +1,27 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+   <header class="jumbotron">
+      <div class="container">
+         <h1 class="">Profile page for <%= profile.username %> </h1>
+      </div>
+   </header>
+
+   <h2>All <%= profile.username %>'s campsites</h2>
+
+   <div class="row text-center">
+      <% profile.posts.forEach(post =>{ %>
+
+      <div class="col-sm-6 col-md-3">
+         <div class="card mt-3 camp-card">
+            <img src="<%= post.image %>" class="img-thumbnail camp-img" />
+            <div class="caption">
+               <p class="card-text text-center mt-2"><%= post.name %></p>
+            </div>
+         </div>
+      </div>
+
+      <% }) %>
+   </div>
+</div>
+<%- include('../partials/footer') %>
