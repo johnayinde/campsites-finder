@@ -1,3 +1,4 @@
+
 const router = require('express').Router(),
    Campground = require('../models/campground'),
    User = require('../models/user'),
@@ -24,7 +25,6 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
    Campground.create({ name, image, description, price }, (error, result) => {
       if (error) console.log(error);
       else {
-
          // Add author id and username
          result.author.id = req.user._id;
          result.author.username = req.user.username;
@@ -90,7 +90,17 @@ router.delete('/:id', middleware.campgroundOwnership, (req, res) => {
          console.log(err);
          res.redirect(`/campgrounds/${id}`);
       }
-      res.redirect('/campgrounds');
+      console.log('deleted', result);
+
+      User.findByIdAndUpdate(result.author.id, { useFindAndModify: false }, { $pull: { posts: id } }, (err, deleted) => {
+         if (err) {
+            console.log(err)
+         };
+         req.flash('success', "Comment deleted")
+         res.redirect('/campgrounds');
+         console.log('new User', deleted);
+
+      })
    })
 });
 
