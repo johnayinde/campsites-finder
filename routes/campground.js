@@ -10,6 +10,8 @@ router.get('/', (req, res) => {
    Campground.find({}, (error, result) => {
       if (error) console.log(error);
       else res.render('campgrounds/campground', { campgrounds: result });
+      console.log("loggedin:", req.user);
+      // console.log("userIcon:", userIcon);
 
    })
 });
@@ -47,7 +49,14 @@ router.get('/:id', (req, res) => {
    // find from db using id 
    Campground.findById(req.params.id).populate('comments').exec((error, doc) => {
       if (error) console.log(error);
-      else res.render('campgrounds/show', { campgrounds: doc });
+      console.log("camp:", doc);
+
+      User.findOne({ username: doc.author.username }, (err, data) => {
+         if (err) console.log(err);
+         console.log("userdata:", data);
+
+         res.render('campgrounds/show', { campgrounds: doc, user: data });
+      })
    })
 
 });
@@ -84,7 +93,7 @@ router.put('/:id', middleware.campgroundOwnership, (req, res) => {
 router.delete('/:id', middleware.campgroundOwnership, (req, res) => {
    const id = req.params.id;
 
-   Campground.findOneAndRemove(id, (err, result) => {
+   Campground.findByIdAndDelete(id, (err, result) => {
       console.log('message to delete', result);
       if (err) {
          console.log(err);
@@ -92,7 +101,7 @@ router.delete('/:id', middleware.campgroundOwnership, (req, res) => {
       }
       console.log('deleted', result);
 
-      User.findByIdAndUpdate(result.author.id, { useFindAndModify: false }, { $pull: { posts: id } }, (err, deleted) => {
+      User.findByIdAndUpdate(result.author.id, { $pull: { posts: id } }, { useFindAndModify: false }, (err, deleted) => {
          if (err) {
             console.log(err)
          };

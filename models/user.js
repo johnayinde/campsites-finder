@@ -13,22 +13,26 @@ const userSchema = new mongoose.Schema({
    },
    password: {
       type: String,
-      required: true,
+      // required: true,
 
    },
-   email: {
-      type: String,
-      unique: true,
-      trim: true,
-      required: true,
+   // email: {
+   //    type: String,
+   //    unique: true,
+   //    trim: true,
+   //    // required: true,
 
-   },
+   // },
    fullname: String,
    isAdmin: {
       type: Boolean,
       default: false,
    },
-   avatar: String,
+   avatar: {
+      type: String,
+      default: "/img/icon.jpg",
+
+   },
    phone: Number,
    joined: {
       type: Date,
