@@ -14,9 +14,16 @@ router.get('/register', (req, res) => {
 
 // Registration route
 router.post('/register', (req, res) => {
-   console.log(req.body);
+   const body = {
+      username: req.body.username,
+      avatar: req.body.avatar,
+      fullname: req.body.fullname,
+      email: req.body.email,
+      phone: req.body.phone,
 
-   const newUsername = new User({ username: req.body.username, avatar: req.body.avatar });
+   }
+
+   const newUsername = new User(body);
    const newPassword = req.body.password;
    User.register(newUsername, newPassword, (err, user) => {
       if (err) {

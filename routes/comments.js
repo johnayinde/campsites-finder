@@ -18,7 +18,6 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
    const id = req.params.id;
    Comment.create(req.body, (err, comment) => {
       if (err) throw err;
-console.log('comment b4 save:'+ comment);
 
       Campground.findById(req.params.id, (err, campground) => {
          if (err) {
@@ -29,11 +28,9 @@ console.log('comment b4 save:'+ comment);
          comment.author.username = req.user.username;
          // save comment
          comment.save()
-         console.log('comment aft save:' + comment);
 
          campground.comments.push(comment._id);
          campground.save();
-         console.log('camp aft save:' + comment);
 
          req.flash('success', "Successfully added comment")
          res.redirect(`/campgrounds/${id}`)

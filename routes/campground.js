@@ -49,12 +49,8 @@ router.get('/:id', (req, res) => {
    // find from db using id 
    Campground.findById(req.params.id).populate('comments').exec((error, doc) => {
       if (error) console.log(error);
-      console.log("camp:", doc);
-
       User.findOne({ username: doc.author.username }, (err, data) => {
          if (err) console.log(err);
-         console.log("userdata:", data);
-
          res.render('campgrounds/show', { campgrounds: doc, user: data });
       })
    })
@@ -99,7 +95,6 @@ router.delete('/:id', middleware.campgroundOwnership, (req, res) => {
          console.log(err);
          res.redirect(`/campgrounds/${id}`);
       }
-      console.log('deleted', result);
 
       User.findByIdAndUpdate(result.author.id, { $pull: { posts: id } }, { useFindAndModify: false }, (err, deleted) => {
          if (err) {
@@ -107,7 +102,6 @@ router.delete('/:id', middleware.campgroundOwnership, (req, res) => {
          };
          req.flash('success', "Comment deleted")
          res.redirect('/campgrounds');
-         console.log('new User', deleted);
 
       })
    })

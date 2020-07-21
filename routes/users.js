@@ -12,7 +12,7 @@ router.get('/:username', (req, res) => {
       if (err) {
          res.redirect('back')
       }
-      console.log(result);
+      console.log(result)
       res.render('users/profile', { profile: result });
 
 
