@@ -37,6 +37,7 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
             if (err) throw err;
             res.redirect('/campgrounds');
             console.log('updated User:' + updated);
+
          })
       }
    });
