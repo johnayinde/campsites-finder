@@ -10,7 +10,7 @@ module.exports = function (app) {
     */
 
     app.use(require('cookie-session')({
-        secret: "my secret", resave: false, saveUninitialized: false
+        secret: process.env.MY_SECRET, resave: false, saveUninitialized: false
     }));
     app.use(passport.initialize());
     app.use(passport.session());

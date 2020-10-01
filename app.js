@@ -1,6 +1,7 @@
 const app = require('express')(),
-    sedDb = require('./seed'),
+    // sedDb = require('./seed'),
     PORT = process.env.PORT || 3000;
+require('dotenv').config()
 
 require('./utils/db')()
 require('./utils/middleware')(app)
