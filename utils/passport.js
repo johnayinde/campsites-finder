@@ -9,7 +9,7 @@ module.exports = function (app) {
     * ===========
     */
 
-    app.use(require('express-session')({
+    app.use(require('cookie-session')({
         secret: "my secret", resave: false, saveUninitialized: false
     }));
     app.use(passport.initialize());
