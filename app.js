@@ -1,5 +1,6 @@
 const app = require('express')(),
-    sedDb = require('./seed');
+    sedDb = require('./seed'),
+    PORT = process.env.PORT || 3000;
 
 require('./utils/db')()
 require('./utils/middleware')(app)
@@ -10,6 +11,6 @@ require('./utils/routes')(app)
 
 
 // Running Port
-app.listen(3000, function () {
-    console.log('serving port 3000')
+app.listen(PORT, function () {
+    console.log(`serving port ${PORT}`)
 })
