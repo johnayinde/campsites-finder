@@ -1,27 +1,29 @@
 <%- include('../partials/header') %>
 
-<div class="container">
-  <header class="jumbotron">
-    <div class="container">
-      <h1 class="">welcome to campFinder</h1>
-      <a class="btn btn-primary" href="/campgrounds/new">Add camp grounds</a>
-    </div>
-  </header>
-
-  <div class="row text-center">
-    <% campgrounds.forEach(ground =>{ %>
-
-    <div class="col-sm-6 col-md-3">
-      <div class="card mt-3 camp-card">
-        <img src="<%= ground.image %>" class="img-thumbnail camp-img" />
-        <div class="caption">
-          <p class="card-text text-center mt-2"><%= ground.name %></p>
-          <a href="/campgrounds/<%= ground._id %> " class="btn btn-primary">More info</a>
-        </div>
+  <div class="container">
+    <header class="jumbotron">
+      <div class="container">
+        <h1 class="">welcome to campfinder</h1>
+        <a class="btn btn-primary" href="/campgrounds/new">Add camp grounds</a>
       </div>
-    </div>
+    </header>
 
-    <% }) %>
+    <div class="row text-center">
+      <% campgrounds.forEach(ground=>{ %>
+
+        <div class="col-sm-6 col-md-3">
+          <div class="card mt-3 camp-card">
+            <img src="<%= ground.image %>" class="img-thumbnail camp-img" />
+            <div class="caption">
+              <p class="card-text text-center mt-2">
+                <%= ground.name %>
+              </p>
+              <a href="/campgrounds/<%= ground._id %> " class="btn btn-primary">More info</a>
+            </div>
+          </div>
+        </div>
+
+        <% }) %>
+    </div>
   </div>
-</div>
-<%- include('../partials/footer') %>
+  <%- include('../partials/footer') %>
