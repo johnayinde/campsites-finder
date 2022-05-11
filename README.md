@@ -1,23 +1,36 @@
 # Camps finders
-A nodeJs application for finding camp grounds
->  Live demo [_Here_](https://johnayinde.github.io/responsive-Bootstrap-5-layout/)
+Camp Finder is a website where users can create ,edit, delete and review campgrounds. In order to review or create a campground, you must have an account.
+
+This project was created using Node.js, Express, MongoDB, and Bootstrap. Passport.js was used to handle authentication.
+Live demo [_Here_](https://campsfinder.herokuapp.com/)
 
 
-## Technologies Used
-- HTML/CSS 
-- NODEjs
-- Express
-- MongoDB
-- Passport for Registration
-- Ejs
 
-
-## Screenshots
-> Desktop view
  
-![Desktop view](./img/d.png)
+ > Home page
 
-> Mobile view
+![Desktop view](./public/img/home.png)
 
-![mobile view](./img/m.png)
+ > list of camp grounds
 
+![Desktop view](./public/img/grounds.png)
+
+ > Details on a camp ground
+
+![Desktop view](./public/img/shows.png)
+
+ > Registration page
+
+![Desktop view](./public/img/reg.png)
+ > Create camp ground
+
+![Desktop view](./public/img/create.png)
+
+
+## Features
+- Users can create, edit, and remove campgrounds
+- Users can review campgrounds once, and edit or remove their review
+- User profiles include more information on the user (full name, email, phone, join date), their campgrounds, and the option to edit their profile or delete their account
+- Search campground by name or location
+- Sort campgrounds by highest rating, most reviewed, lowest price, or highest price
+- Run it locally
